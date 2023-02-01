@@ -55,20 +55,24 @@ const countList = computed(() => {
     <div class="container mx-auto flex p-8">
         <div class="flex-1">
             <h1 class="text-3xl font-bold">输入</h1>
-            <GeneralButton @click="onClear" class="mt-4">清空</GeneralButton>
+
             <div class="flex items-center mt-4">
                 <input
                     v-model="inputText"
                     @focus="hasError = false"
                     @keydown.enter="onAdd"
-                    class="font-bold text-lg rounded-l h-8 px-4"
+                    class="font-bold text-xl rounded-l h-8 px-4 bg-stone-700 border-none outline-none"
                 />
                 <GeneralButton @click="onAdd">添加</GeneralButton>
             </div>
             <span class="text-red-600" v-if="hasError">输入错误</span>
 
             <div class="mt-10">
-                <div class="font-bold text-lg">人数：{{ ageList.length }}</div>
+                <div class="flex gap-8 items-center mb-8">
+                    <div class="font-bold text-lg">人数：{{ ageList.length }}</div>
+                    <GeneralButton @click="onClear">清空</GeneralButton>
+                </div>
+
                 <div v-for="(age, index) in showList" :key="index" class="flex items-center mt-2">
                     <div class="bg-stone-600 rounded-l-sm py-1 px-4 w-20 h-8 font-bold text-lg">{{ age }}</div>
                     <button
