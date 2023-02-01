@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, ref } from 'vue';
+import { computed, onMounted, ref, watch } from 'vue';
 import GeneralButton from './components/GeneralButton.vue';
 import SingleColTable from './components/SingleColTable.vue';
 const inputText = ref('');
@@ -48,6 +48,20 @@ const countList = computed(() => {
     }
 
     return Object.values(dict);
+});
+
+watch(
+    () => ageList.value.length,
+    () => {
+        localStorage.setItem('history', ageList.value.join(','));
+    }
+);
+
+onMounted(() => {
+    const history = localStorage.getItem('history');
+    if (history) {
+        ageList.value = history.split(',').map((item) => Number(item));
+    }
 });
 </script>
 
