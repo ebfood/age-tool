@@ -6,6 +6,7 @@ const inputText = ref('');
 const ageList = ref<number[]>([]);
 
 const hasError = ref(false);
+const copySuccess = ref(false);
 
 function onAdd() {
     const str = inputText.value.replace(/[^\d]/g, '');
@@ -63,6 +64,16 @@ onMounted(() => {
         ageList.value = history.split(',').map((item) => Number(item));
     }
 });
+
+function onCopy() {
+    let text = Object.values(countList.value).join('\n');
+    navigator.clipboard.writeText(text).then(() => {
+        copySuccess.value = true;
+        setTimeout(() => {
+            copySuccess.value = false;
+        }, 2000);
+    });
+}
 </script>
 
 <template>
@@ -100,6 +111,11 @@ onMounted(() => {
         </div>
         <div class="flex-1">
             <h1 class="text-3xl font-bold">输出</h1>
+            <div class="flex items-center gap-4 my-4">
+                <GeneralButton @click="onCopy">复制</GeneralButton>
+                <span class="text-green-500" v-if="copySuccess">已复制!</span>
+            </div>
+
             <div class="flex">
                 <SingleColTable :title="'年龄'" :darker="true" :data="[...Array(101).keys()].slice(1)"></SingleColTable>
                 <SingleColTable :title="'人数'" :data="countList"></SingleColTable>
